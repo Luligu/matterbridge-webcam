@@ -32,7 +32,7 @@ If you like this project and find it useful, please consider giving it a star on
 
 ### Breaking changes
 
-- [matterbridge]: Require matterbridge v.3.10.3.
+- [matterbridge]: Require matterbridge v.3.10.2.
 
 - First release.
 
