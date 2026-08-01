@@ -67,7 +67,7 @@ describe('TestPlatform', () => {
 
   it('should throw error in load when version is not valid', () => {
     expect(() => initializePlugin({ ...matterbridge, matterbridgeVersion: '1.0.0' }, log, config)).toThrow(
-      'This plugin requires Matterbridge version >= "3.10.2". Please update Matterbridge to the latest version in the frontend.',
+      'This plugin requires Matterbridge version >= "3.10.3". Please update Matterbridge to the latest version in the frontend.',
     );
   });
 

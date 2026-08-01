@@ -30,11 +30,17 @@ If you like this project and find it useful, please consider giving it a star on
 
 ## [0.0.1] - 2026-07-26
 
+- First release.
+
 ### Breaking changes
 
-- [matterbridge]: Require matterbridge v.3.10.2.
+- [matterbridge]: Require matterbridge v.3.10.3 with matter v.1.6.0.
 
-- First release.
+### Changed
+
+- [package]: Bump `oxfmt` to v.0.61.0.
+- [package]: Bump `oxlint` to v.1.76.0.
+- [package]: Bump `@types/node` to v.26.1.2.
 
 <a href="https://www.buymeacoffee.com/luligugithub"><img src="https://matterbridge.io/assets/bmc-button.svg" alt="Buy me a coffee" width="80"></a>
 
