@@ -30,17 +30,18 @@ If you like this project and find it useful, please consider giving it a star on
 
 <a href="https://www.buymeacoffee.com/luligugithub"><img src="https://matterbridge.io/assets/bmc-button.svg" alt="Buy me a coffee" width="120"></a>
 
-## [0.0.1] - 2026-07-26
+## [0.0.2] - 2026-08-20
 
 - First release.
 
 ### Breaking changes
 
-- [matterbridge]: Require matterbridge v.3.10.3 with matter v.1.6.0.
+- [matterbridge]: Require matterbridge v.3.10.5 with matter v.1.6.0.
 
 ### Added
 
 - [chip]: Add chip-test toolchain agents instruction and chip-test runner.
+- [devcontainer]: Add Dev Container (Bun and Node) v.2.0.0.
 - [frontend]: Add plugin-frontend agents instructions.
 
 ### Changed

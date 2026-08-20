@@ -43,8 +43,8 @@ export class WebcamPlatform extends MatterbridgeDynamicPlatform {
     super(matterbridge, log, config);
 
     // Verify that Matterbridge is the correct version
-    if (typeof this.verifyMatterbridgeVersion !== 'function' || !this.verifyMatterbridgeVersion('3.10.3')) {
-      throw new Error(`This plugin requires Matterbridge version >= "3.10.3". Please update Matterbridge to the latest version in the frontend.`);
+    if (typeof this.verifyMatterbridgeVersion !== 'function' || !this.verifyMatterbridgeVersion('3.10.5')) {
+      throw new Error(`This plugin requires Matterbridge version >= "3.10.5". Please update Matterbridge to the latest version in the frontend.`);
     }
 
     this.log.info(`Initializing platform: ${this.config.name}`);
