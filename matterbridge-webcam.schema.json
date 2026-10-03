@@ -1,0 +1,76 @@
+{
+  "title": "Matterbridge webcam plugin",
+  "description": "matterbridge-webcam v. 0.0.3 by https://github.com/Luligu",
+  "type": "object",
+  "properties": {
+    "name": {
+      "description": "Plugin Name",
+      "type": "string",
+      "readOnly": true,
+      "ui:widget": "hidden"
+    },
+    "type": {
+      "description": "Plugin Type",
+      "type": "string",
+      "readOnly": true,
+      "ui:widget": "hidden"
+    },
+    "installFfmpeg": {
+      "title": "Install ffmpeg (Docker only)",
+      "description": "Docker only: install ffmpeg automatically if it is not found in the container. Ignored on the other installations, where ffmpeg must be installed manually.",
+      "type": "boolean",
+      "default": true
+    },
+    "discoverWebcams": {
+      "title": "Discover webcams",
+      "description": "Discover the webcams available on this system and add them to the webcams list.",
+      "type": "boolean",
+      "buttonText": "Discover",
+      "buttonClose": true,
+      "buttonSave": false,
+      "default": false
+    },
+    "webcams": {
+      "title": "Webcams",
+      "description": "Define each webcam. Enter in the first field the name of the webcam (replace newKey with the name of the webcam) and in the right panel the video and audio sources.",
+      "type": "object",
+      "uniqueItems": true,
+      "additionalProperties": {
+        "type": "object",
+        "description": "Webcam parameters:",
+        "required": ["videoSource"],
+        "properties": {
+          "videoSource": {
+            "title": "Video Source",
+            "description": "The ffmpeg video source: the device name on macOS (avfoundation) and Windows (dshow), the device path (i.e. /dev/video0) on Linux (v4l2).",
+            "type": "string"
+          },
+          "audioSource": {
+            "title": "Audio Source",
+            "description": "The ffmpeg audio source: the microphone name on macOS and Windows. Leave empty for no audio. Not used on Linux.",
+            "type": "string",
+            "default": ""
+          },
+          "play": {
+            "type": "boolean",
+            "default": false,
+            "buttonText": "Play",
+            "description": "Play the webcam in an ffplay window"
+          }
+        }
+      }
+    },
+    "debug": {
+      "title": "Enable Debug",
+      "description": "Enable the debug for the plugin (development only)",
+      "type": "boolean",
+      "default": false
+    },
+    "unregisterOnShutdown": {
+      "title": "Unregister On Shutdown",
+      "description": "Unregister all devices on shutdown (development only)",
+      "type": "boolean",
+      "default": false
+    }
+  }
+}
