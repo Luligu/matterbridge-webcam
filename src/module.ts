@@ -55,12 +55,14 @@ export class WebcamPlatform extends MatterbridgeDynamicPlatform {
   // oxlint-disable-next-line typescript/require-await
   override async onStart(reason?: string): Promise<void> {
     this.log.info(`Starting platform ${this.config.name} with reason: ${reason ?? 'no reason provided'}...`);
+
     this.log.info(`Platform ${this.config.name} started successfully`);
   }
 
   override async onConfigure(): Promise<void> {
     await super.onConfigure();
     this.log.info(`Configuring platform ${this.config.name}...`);
+
     this.log.info(`Platform ${this.config.name} configured successfully`);
   }
 
