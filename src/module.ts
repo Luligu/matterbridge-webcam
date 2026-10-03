@@ -90,8 +90,14 @@ export class WebcamPlatform extends MatterbridgeDynamicPlatform {
     // Docker only: install ffmpeg when it is missing
     if (this.matterbridge.restartMode === 'docker' && this.config.installFfmpeg && !hasFfmpeg()) {
       this.log.info('Installing ffmpeg...');
-      if (await installFfmpeg()) this.log.info('ffmpeg installed successfully');
-      else this.log.error('Failed to install ffmpeg: install it manually in the container');
+      this.wssSendSnackbarMessage('Installing ffmpeg...', 10, 'info');
+      if (await installFfmpeg()) {
+        this.log.info('ffmpeg installed successfully');
+        this.wssSendSnackbarMessage('ffmpeg installed successfully', 10, 'success');
+      } else {
+        this.log.error('Failed to install ffmpeg: install it manually in the container');
+        this.wssSendSnackbarMessage('Failed to install ffmpeg: install it manually in the container', 0, 'error');
+      }
     }
 
     this.log.info(`Platform ${this.config.name} started successfully`);

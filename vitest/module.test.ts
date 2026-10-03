@@ -119,15 +119,20 @@ describe('TestPlatform', () => {
   it('should install ffmpeg on start when running in docker and ffmpeg is missing', async () => {
     const dockerMatterbridge = { ...matterbridge, restartMode: 'docker' } as PlatformMatterbridge;
     const dockerPlatform = new WebcamPlatform(dockerMatterbridge, log, { ...config });
+    const snackbarSpy = vi.spyOn(dockerPlatform, 'wssSendSnackbarMessage').mockImplementation(() => {});
     behaviors.hasFfmpeg.mockReturnValue(false);
 
     await dockerPlatform.onStart();
     expect(behaviors.installFfmpeg).toHaveBeenCalledTimes(1);
     expect(loggerInfoSpy).toHaveBeenCalledWith('ffmpeg installed successfully');
+    expect(snackbarSpy).toHaveBeenCalledWith('Installing ffmpeg...', 10, 'info');
+    expect(snackbarSpy).toHaveBeenCalledWith('ffmpeg installed successfully', 10, 'success');
 
+    snackbarSpy.mockClear();
     behaviors.installFfmpeg.mockResolvedValueOnce(false);
     await dockerPlatform.onStart();
     expect(loggerErrorSpy).toHaveBeenCalledWith('Failed to install ffmpeg: install it manually in the container');
+    expect(snackbarSpy).toHaveBeenCalledWith('Failed to install ffmpeg: install it manually in the container', 0, 'error');
     loggerErrorSpy.mockClear();
     behaviors.hasFfmpeg.mockReturnValue(true);
   });
