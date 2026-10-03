@@ -22,10 +22,12 @@
  */
 
 import type { ChildProcess } from 'node:child_process';
+import { createHash } from 'node:crypto';
 
 import { MatterbridgeDynamicPlatform } from 'matterbridge';
 import type { PlatformConfig, PlatformMatterbridge } from 'matterbridge';
 import { hasFfmpeg, installFfmpeg, listWebcams, playWebcam } from 'matterbridge/behaviors';
+import { Camera } from 'matterbridge/devices/camera';
 import type { AnsiLogger } from 'matterbridge/logger';
 import { getErrorMessage } from 'matterbridge/utils';
 
@@ -98,6 +100,30 @@ export class WebcamPlatform extends MatterbridgeDynamicPlatform {
         this.log.error('Failed to install ffmpeg: install it manually in the container');
         this.wssSendSnackbarMessage('Failed to install ffmpeg: install it manually in the container', 0, 'error');
       }
+    }
+
+    // Wait for the platform to fully load the select
+    await this.ready;
+
+    // Clear the select since we add all the devices
+    await this.clearSelect();
+
+    for (const [name, webcam] of Object.entries(this.config.webcams)) {
+      // The serial is WEBCAM- plus the first 16 hex chars of the sha256 of the webcam name: stable, unique and always 23 characters
+      // Matter limits serialNumber and nodeLabel to 32 characters, so the name is truncated
+      const serial = `WEBCAM-${createHash('sha256').update(name).digest('hex').slice(0, 16)}`;
+      const camera = new Camera(name.slice(0, 32), serial, {
+        weriftOfferOptions: {
+          offerVideo: true,
+          offerAudio: !!webcam.audioSource,
+          videoSource: 'webcam',
+          videoSourceDevice: webcam.videoSource,
+          audioSource: webcam.audioSource ? 'microphone' : 'none',
+          audioSourceDevice: webcam.audioSource || undefined,
+        },
+      });
+      this.setSelectDevice(serial, name);
+      if (this.validateDevice([name, serial])) await this.registerDevice(camera);
     }
 
     this.log.info(`Platform ${this.config.name} started successfully`);

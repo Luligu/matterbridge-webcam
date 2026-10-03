@@ -137,6 +137,48 @@ describe('TestPlatform', () => {
     behaviors.hasFfmpeg.mockReturnValue(true);
   });
 
+  it('should register a camera for each webcam on start', async () => {
+    const webcamPlatform = new WebcamPlatform(matterbridge, log, {
+      ...config,
+      webcams: {
+        'Front Cam': { videoSource: '0', audioSource: '1' },
+        'Desk Cam': { videoSource: '2', audioSource: '' },
+      },
+    });
+    const registerSpy = vi.spyOn(webcamPlatform, 'registerDevice').mockResolvedValue();
+    vi.spyOn(webcamPlatform, 'validateDevice').mockReturnValue(true);
+
+    await webcamPlatform.onStart();
+    expect(registerSpy).toHaveBeenCalledTimes(2);
+    const [front, desk] = registerSpy.mock.calls.map(([device]) => device);
+    expect(front.deviceName).toBe('Front Cam');
+    expect(front.serialNumber).toBe('WEBCAM-e1c174bd41f0c89c');
+    expect(desk.deviceName).toBe('Desk Cam');
+    expect(desk.serialNumber).toBe('WEBCAM-c94623e15ec170a0');
+  });
+
+  it('should not register a camera that is not valid on start', async () => {
+    const webcamPlatform = new WebcamPlatform(matterbridge, log, { ...config, webcams: { 'Front Cam': { videoSource: '0', audioSource: '' } } });
+    const registerSpy = vi.spyOn(webcamPlatform, 'registerDevice').mockResolvedValue();
+    const validateSpy = vi.spyOn(webcamPlatform, 'validateDevice').mockReturnValue(false);
+
+    await webcamPlatform.onStart();
+    expect(validateSpy).toHaveBeenCalledWith(['Front Cam', 'WEBCAM-e1c174bd41f0c89c']);
+    expect(registerSpy).not.toHaveBeenCalled();
+  });
+
+  it('should use a hashed serial number and truncate the name of a camera to 32 characters', async () => {
+    const longName = 'A very long webcam name that exceeds the Matter limit';
+    const webcamPlatform = new WebcamPlatform(matterbridge, log, { ...config, webcams: { [longName]: { videoSource: '0', audioSource: '' } } });
+    const registerSpy = vi.spyOn(webcamPlatform, 'registerDevice').mockResolvedValue();
+    vi.spyOn(webcamPlatform, 'validateDevice').mockReturnValue(true);
+
+    await webcamPlatform.onStart();
+    const [device] = registerSpy.mock.calls[0];
+    expect(device.serialNumber).toBe('WEBCAM-fe474456c3a22447');
+    expect(device.deviceName).toBe('A very long webcam name that exc');
+  });
+
   it('should normalize missing config values when constructed', () => {
     const bare = { name: 'bare', type: 'DynamicPlatform', version: '1.0.0' } as unknown as WebcamPlatformConfig;
     const barePlatform = new WebcamPlatform(matterbridge, log, bare);
