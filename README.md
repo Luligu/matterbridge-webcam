@@ -22,7 +22,59 @@
 
 ---
 
-Work in progress!
+This plugin discovers the webcams of the host with [`ffmpeg`](https://ffmpeg.org/) and lets you configure and preview them from the Matterbridge frontend.
+
+Features:
+
+- The webcams of the host are discovered with ffmpeg on Linux (v4l2), macOS (avfoundation) and Windows (dshow) with a single button in the frontend.
+- A notification is shown in the frontend for each new webcam discovered.
+- The webcams are saved in the plugin config and can be edited: each webcam has a name, a video source and an audio source.
+- Each webcam can be previewed in an ffplay window with the Play button in the frontend (not available in docker).
+- In docker, ffmpeg can be installed automatically at start if it is not found.
+
+## Prerequisites
+
+### Matterbridge
+
+Requires Matterbridge `3.10.13` or later. See the complete guidelines on [Matterbridge](https://matterbridge.io/README.html) for more information.
+
+### ffmpeg
+
+Requires the full [`ffmpeg`](https://ffmpeg.org/) build (it includes `ffplay`) to be installed on the host. The plugin looks for it in the system `PATH` and in the common installation directories on Linux, macOS and Windows.
+
+In docker, enable the `installFfmpeg` option (enabled by default) and the plugin installs it at start with `apk` or `apt-get` if it is not found. In all other installations install it manually with the package manager of the platform.
+
+#### Linux (Debian/Ubuntu)
+
+```bash
+sudo apt update && sudo apt install -y ffmpeg
+```
+
+#### macOS
+
+```bash
+brew install ffmpeg
+```
+
+#### Windows
+
+```powershell
+winget install --id Gyan.FFmpeg -e
+```
+
+## How to add a webcam
+
+In the frontend open the plugin config and press Discover in the webcams section: the webcams found are added to the list. You can also add a webcam manually: enter the webcam name in the first field (replace newKey with the name you want to give to the webcam) and the video source and the audio source in the right panel.
+
+The sources depend on the platform:
+
+| Platform | Video source                             | Audio source        |
+| -------- | ---------------------------------------- | ------------------- |
+| Linux    | the device path, i.e. /dev/video0        | not used            |
+| macOS    | the device name, i.e. FaceTime HD Camera | the microphone name |
+| Windows  | the device name, i.e. Integrated Camera  | the microphone name |
+
+Leave the audio source empty for no audio. Press Play to check the webcam in an ffplay window.
 
 ## Style guide
 
