@@ -34,10 +34,14 @@ If you like this project and find it useful, please consider giving it a star on
 
 ### Breaking changes
 
-- [matterbridge]: Require matterbridge v.3.10.10 with matter v.1.6.0.
+- [matterbridge]: Require matterbridge v.3.10.13 with matter v.1.6.0.
 
 ### Added
 
+- [config]: Add the plugin schema and default config with `installFfmpeg`, `webcams` (an object with `videoSource`, `audioSource` and a `play` action per webcam) and the `discoverWebcams` action.
+- [platform]: Add `WebcamPlatformConfig` and `discoverWebcams()`: with ffmpeg installed, it discovers the webcams with avfoundation (macOS), dshow (Windows) or v4l2 (Linux).
+- [platform]: In docker, install ffmpeg on start when `installFfmpeg` is enabled and ffmpeg is not found.
+- [platform]: Add the `play` action: it plays the webcam in an ffplay window.
 - [devcontainer]: Add [`Dev Container`](.devcontainer/README.md) v.2.2.0 with dual Node and Bun runtime support.
 - [agents]: Add a [`shared setup`](.agents/README.md) for all agents: OpenAI Codex, Claude Code, GitHub Copilot and Google Gemini / Antigravity.
 - [agents]: Add [`commit message instructions`](.github/commit-message-instructions.md) v.1.0.0 for the VS Code Copilot "Generate Commit Message" button (Conventional Commits).
