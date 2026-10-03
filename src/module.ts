@@ -47,24 +47,27 @@ export class WebcamPlatform extends MatterbridgeDynamicPlatform {
       throw new Error(`This plugin requires Matterbridge version >= "3.10.10". Please update Matterbridge to the latest version in the frontend.`);
     }
 
-    this.log.info(`Initializing platform: ${this.config.name}`);
+    this.log.info(`Initializing platform ${this.config.name}...`);
 
-    this.log.info(`Finished initializing platform: ${this.config.name}`);
+    this.log.info(`Platform ${this.config.name} initialized successfully`);
   }
 
   // oxlint-disable-next-line typescript/require-await
   override async onStart(reason?: string): Promise<void> {
-    this.log.info(`onStart called with reason: ${reason ?? 'No reason provided'}`);
+    this.log.info(`Starting platform ${this.config.name} with reason: ${reason ?? 'no reason provided'}...`);
+    this.log.info(`Platform ${this.config.name} started successfully`);
   }
 
   override async onConfigure(): Promise<void> {
     await super.onConfigure();
-    this.log.info('onConfigure called');
+    this.log.info(`Configuring platform ${this.config.name}...`);
+    this.log.info(`Platform ${this.config.name} configured successfully`);
   }
 
   override async onShutdown(reason?: string): Promise<void> {
     await super.onShutdown(reason);
-    this.log.info(`onShutdown called with reason: ${reason ?? 'No reason provided'}`);
+    this.log.info(`Shutting down platform ${this.config.name} with reason: ${reason ?? 'no reason provided'}...`);
     if (this.config.unregisterOnShutdown) await this.unregisterAllDevices();
+    this.log.info(`Platform ${this.config.name} shut down successfully`);
   }
 }

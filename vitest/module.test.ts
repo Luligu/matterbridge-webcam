@@ -74,38 +74,38 @@ describe('TestPlatform', () => {
   it('should initialize platform with config name', () => {
     platform = new WebcamPlatform(matterbridge, log, config);
     addMatterbridge(platform);
-    expect(loggerInfoSpy).toHaveBeenCalledWith(`Initializing platform: ${config.name}`);
-    expect(loggerInfoSpy).toHaveBeenCalledWith(`Finished initializing platform: ${config.name}`);
+    expect(loggerInfoSpy).toHaveBeenCalledWith(`Initializing platform ${config.name}...`);
+    expect(loggerInfoSpy).toHaveBeenCalledWith(`Platform ${config.name} initialized successfully`);
   });
 
   it('should call onStart with reason', async () => {
     await platform.onStart('Test reason');
-    expect(loggerInfoSpy).toHaveBeenCalledWith('onStart called with reason: Test reason');
+    expect(loggerInfoSpy).toHaveBeenCalledWith(`Starting platform ${config.name} with reason: Test reason...`);
   });
 
   it('should call onConfigure', async () => {
     await platform.onConfigure();
-    expect(loggerInfoSpy).toHaveBeenCalledWith('onConfigure called');
+    expect(loggerInfoSpy).toHaveBeenCalledWith(`Configuring platform ${config.name}...`);
   });
 
   it('should call onShutdown with reason', async () => {
     await platform.onShutdown('Test reason');
-    expect(loggerInfoSpy).toHaveBeenCalledWith('onShutdown called with reason: Test reason');
+    expect(loggerInfoSpy).toHaveBeenCalledWith(`Shutting down platform ${config.name} with reason: Test reason...`);
   });
 
   it('should restart and unregister devices if configured', async () => {
     platform = new WebcamPlatform(matterbridge, log, config);
     addMatterbridge(platform);
-    expect(loggerInfoSpy).toHaveBeenCalledWith(`Initializing platform: ${config.name}`);
-    expect(loggerInfoSpy).toHaveBeenCalledWith(`Finished initializing platform: ${config.name}`);
+    expect(loggerInfoSpy).toHaveBeenCalledWith(`Initializing platform ${config.name}...`);
+    expect(loggerInfoSpy).toHaveBeenCalledWith(`Platform ${config.name} initialized successfully`);
 
     await platform.onStart();
-    expect(loggerInfoSpy).toHaveBeenCalledWith('onStart called with reason: No reason provided');
+    expect(loggerInfoSpy).toHaveBeenCalledWith(`Starting platform ${config.name} with reason: no reason provided...`);
 
     const unregisterSpy = vi.spyOn(platform, 'unregisterAllDevices').mockResolvedValue();
     platform.config.unregisterOnShutdown = true;
     await platform.onShutdown();
-    expect(loggerInfoSpy).toHaveBeenCalledWith('onShutdown called with reason: No reason provided');
+    expect(loggerInfoSpy).toHaveBeenCalledWith(`Shutting down platform ${config.name} with reason: no reason provided...`);
     expect(unregisterSpy).toHaveBeenCalled();
   });
 });
