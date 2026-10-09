@@ -49,6 +49,7 @@ If you like this project and find it useful, please consider giving it a star on
 
 ### Changed
 
+- [test]: Migrate tests from `matterbridge/vitest-utils` to the unified `matterbridge/test-utils`.
 - [vscode]: Update `.vscode/settings.json` to v.1.0.15: configure commit message instructions, exclude templates from Vitest discovery and refine terminal command approvals.
 - [agents]: Update `.antigravity/settings.json` to v.1.0.5: allow read-only Git commands.
 - [gitignore]: Update `.gitignore` to v.1.0.5: ignore `tmp/`, `.DS_Store` and Windows `Zone.Identifier` files.

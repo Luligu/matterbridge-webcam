@@ -10,16 +10,22 @@ const MATTER_PORT = 6000;
 import { EventEmitter } from 'node:events';
 
 import type { PlatformMatterbridge } from 'matterbridge';
-import { log, loggerErrorSpy, loggerFatalSpy, loggerInfoSpy, loggerWarnSpy, setDebug, setupTest } from 'matterbridge/vitest-utils';
 import {
   addMatterbridge,
   createServerNode,
   createTestEnvironment,
   destroyTestEnvironment,
   getMatterbridge,
+  log,
+  loggerErrorSpy,
+  loggerFatalSpy,
+  loggerInfoSpy,
+  loggerWarnSpy,
+  setDebug,
+  setupTest,
   startServerNode,
   stopServerNode,
-} from 'matterbridge/vitest-utils/matter';
+} from 'matterbridge/test-utils/vitest';
 
 import initializePlugin, { WebcamPlatform } from '../src/module.js';
 import type { WebcamPlatformConfig } from '../src/module.js';
