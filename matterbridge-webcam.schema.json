@@ -1,0 +1,99 @@
+{
+  "title": "Matterbridge webcam plugin",
+  "description": "matterbridge-webcam v. 1.0.0 by https://github.com/Luligu",
+  "type": "object",
+  "properties": {
+    "name": {
+      "description": "Plugin Name",
+      "type": "string",
+      "readOnly": true,
+      "ui:widget": "hidden"
+    },
+    "type": {
+      "description": "Plugin Type",
+      "type": "string",
+      "readOnly": true,
+      "ui:widget": "hidden"
+    },
+    "autoInstallFfmpeg": {
+      "title": "Auto install ffmpeg (Docker only)",
+      "description": "Docker only: install ffmpeg automatically if it is not found in the container. On other installations, use the Linux install button or install ffmpeg manually.",
+      "type": "boolean",
+      "default": true
+    },
+    "installFfmpeg": {
+      "title": "Install ffmpeg (Linux only)",
+      "description": "Install ffmpeg now on Linux. Requires root privileges and apk (Alpine) or apt-get (Debian/Ubuntu). Available outside Docker too; unsupported on macOS and Windows.",
+      "type": "boolean",
+      "buttonText": "Install ffmpeg",
+      "buttonClose": true,
+      "buttonSave": false,
+      "default": false
+    },
+    "discoverWebcams": {
+      "title": "Discover webcams",
+      "description": "Discover the webcams available on this system and add them to the webcams list.",
+      "type": "boolean",
+      "buttonText": "Discover",
+      "buttonClose": true,
+      "buttonSave": false,
+      "default": false
+    },
+    "webcams": {
+      "title": "Webcams",
+      "description": "Define each webcam. Enter in the first field the name of the webcam (replace newKey with the name of the webcam) and in the right panel the video and audio sources.",
+      "type": "object",
+      "uniqueItems": true,
+      "additionalProperties": {
+        "type": "object",
+        "description": "Webcam parameters:",
+        "required": ["videoSource"],
+        "properties": {
+          "videoSource": {
+            "title": "Video Source",
+            "description": "The ffmpeg video source: the device name on macOS (avfoundation) and Windows (dshow), the device path (i.e. /dev/video0) on Linux (v4l2).",
+            "type": "string"
+          },
+          "audioSource": {
+            "title": "Audio Source",
+            "description": "The ffmpeg audio source: the microphone name on macOS and Windows. Leave empty for no audio. Not used on Linux.",
+            "type": "string",
+            "default": ""
+          },
+          "play": {
+            "type": "boolean",
+            "default": false,
+            "buttonText": "Play",
+            "description": "Play the webcam in an ffplay window (not available in Docker)."
+          },
+          "videoResolution": {
+            "title": "Video Resolution",
+            "description": "Resolution used when capturing from the configured webcam or RTSP camera. auto uses the resolution requested by the controller (the allocated video stream's maxResolution) instead of a fixed value.",
+            "type": "string",
+            "enum": ["auto", "640x480", "1280x720", "1920x1080"],
+            "default": "auto"
+          },
+          "videoBitrate": {
+            "title": "Video Bitrate",
+            "description": "Target encoder bitrate (kbps) used when capturing from the configured webcam or RTSP camera, regardless of resolution. Default is 1000. Suggested values: ~800 for 640x480, ~2000 for 1280x720, ~2500 for 1920x1080.",
+            "type": "number",
+            "default": 1000,
+            "minimum": 1
+          }
+        }
+      }
+    },
+    "debug": {
+      "title": "Enable Debug",
+      "description": "Enable the debug for the plugin (development only)",
+      "type": "boolean",
+      "default": false
+    },
+    "unregisterOnShutdown": {
+      "title": "Unregister On Shutdown",
+      "description": "Unregister all devices on shutdown (development only)",
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

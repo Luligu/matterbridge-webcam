@@ -1,0 +1,8 @@
+{
+  "name": "matterbridge-webcam",
+  "type": "DynamicPlatform",
+  "autoInstallFfmpeg": true,
+  "webcams": {},
+  "debug": false,
+  "unregisterOnShutdown": false
+}
