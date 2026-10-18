@@ -32,6 +32,18 @@ If you like this project and find it useful, please consider giving it a star on
 
 ## [1.0.1] - Dev branch
 
+### Breaking changes
+
+- [matterbridge]: Require matterbridge v.3.10.15 with matter v.1.6.0.
+
+### Changed
+
+- [workflows]: Build and test against the matterbridge `dev` branch (`automator.workflow`).
+
+### Fixed
+
+- [webrtc]: Close the WebRTC sessions of the plugin devices on shutdown.
+
 <a href="https://www.buymeacoffee.com/luligugithub"><img src="https://matterbridge.io/assets/bmc-button.svg" alt="Buy me a coffee" width="80"></a>
 
 ## [1.0.0] - 2026-10-16
