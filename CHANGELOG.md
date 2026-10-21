@@ -36,9 +36,22 @@ If you like this project and find it useful, please consider giving it a star on
 
 - [matterbridge]: Require matterbridge v.3.11.0 with matter v.1.6.1.
 
+### Added
+
+- [agents]: Add the Copilot `Matterbridge` custom agent (`.github/agents/matterbridge.agent.md`) that works without subagents.
+
 ### Changed
 
 - [workflows]: Build and test against the matterbridge `dev` branch (`automator.workflow`).
+- [agents]: Update the shared agent setup: `AGENTS.md`, `CLAUDE.md` and `.github/copilot-instructions.md` to v.1.0.7, `GEMINI.md` to v.1.0.1 and `.agents/README.md` to v.1.0.4.
+- [agents]: Update the `testing` rules to v.1.0.7, the `matterbridge` rules to v.1.0.3 and the `verify-agent-context` skill to v.1.0.5.
+- [agents]: Update `.claude/settings.json` to v.1.0.9, `.antigravity/settings.json` to v.1.0.6 and `.codex/rules/default.rules` to v.1.0.7.
+- [vscode]: Update `.vscode/settings.json` to v.1.0.16.
+- [vscode]: Add Bundle, Minify, Obfuscate, Pack and Docker install tasks to `.vscode/tasks.json`.
+- [scripts]: Update `scripts/deep-clean.mjs` and `scripts/prepublish-clean.mjs` to v.2.1.0: also remove `tmp/` and `bun.lock`.
+- [package]: Run `checkDependencies` and `updateDependencies` with `npx npm-check-updates@latest`.
+- [package]: Bump `oxfmt` to v.0.74.0.
+- [package]: Bump `oxlint` to v.1.89.0.
 
 ### Fixed
 
