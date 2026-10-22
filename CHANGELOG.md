@@ -30,7 +30,7 @@ If you like this project and find it useful, please consider giving it a star on
 
 <a href="https://www.buymeacoffee.com/luligugithub"><img src="https://matterbridge.io/assets/bmc-button.svg" alt="Buy me a coffee" width="120"></a>
 
-## [1.0.1] - Dev branch
+## [1.0.1] - 2026-10-23
 
 ### Breaking changes
 
@@ -42,7 +42,6 @@ If you like this project and find it useful, please consider giving it a star on
 
 ### Changed
 
-- [workflows]: Build and test against the matterbridge `dev` branch (`automator.workflow`).
 - [agents]: Update the shared agent setup: `AGENTS.md`, `CLAUDE.md` and `.github/copilot-instructions.md` to v.1.0.7, `GEMINI.md` to v.1.0.1 and `.agents/README.md` to v.1.0.4.
 - [agents]: Update the `testing` rules to v.1.0.7, the `matterbridge` rules to v.1.0.3 and the `verify-agent-context` skill to v.1.0.5.
 - [agents]: Update `.claude/settings.json` to v.1.0.9, `.antigravity/settings.json` to v.1.0.6 and `.codex/rules/default.rules` to v.1.0.7.
