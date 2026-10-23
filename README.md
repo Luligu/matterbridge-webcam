@@ -44,7 +44,7 @@ Features:
 
 ### Matterbridge
 
-Requires Matterbridge `3.10.14` or later. See the complete guidelines on [Matterbridge](https://matterbridge.io/README.html) for more information.
+Requires Matterbridge `3.11.0` or later. See the complete guidelines on [Matterbridge](https://matterbridge.io/README.html) for more information.
 
 ### Matter controller
 

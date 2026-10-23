@@ -9,7 +9,7 @@ const MATTER_PORT = 6000;
 
 import { EventEmitter } from 'node:events';
 
-import type { PlatformMatterbridge } from 'matterbridge';
+import type { MatterbridgeEndpoint, PlatformMatterbridge } from 'matterbridge';
 import {
   addMatterbridge,
   createServerNode,
@@ -37,6 +37,7 @@ const behaviors = vi.hoisted(() => ({
   listWebcams: vi.fn(async () => [] as string[]),
   playWebcam: vi.fn(),
   cameraOptions: vi.fn(),
+  closeWebRtcSessions: vi.fn(),
 }));
 
 vi.mock('matterbridge/behaviors', () => behaviors);
@@ -56,6 +57,7 @@ vi.mock('matterbridge/devices/camera', async (importOriginal) => {
         behaviors.cameraOptions(args[2]?.weriftOfferOptions);
       }
     },
+    closeWebRtcSessions: behaviors.closeWebRtcSessions,
   };
 });
 
@@ -116,7 +118,7 @@ describe('TestPlatform', () => {
 
   it('should throw error in load when version is not valid', () => {
     expect(() => initializePlugin({ ...matterbridge, matterbridgeVersion: '1.0.0' }, log, config)).toThrow(
-      'This plugin requires Matterbridge version >= "3.10.14". Please update Matterbridge to the latest version in the frontend.',
+      'This plugin requires Matterbridge version >= "3.11.0". Please update Matterbridge to the latest version in the frontend.',
     );
   });
 
@@ -412,6 +414,20 @@ describe('TestPlatform', () => {
   it('should call onShutdown with reason', async () => {
     await platform.onShutdown('Test reason');
     expect(loggerInfoSpy).toHaveBeenCalledWith(`Shutting down platform ${config.name} with reason: Test reason...`);
+  });
+
+  it('should close the WebRTC sessions of every device before the base shutdown', async () => {
+    const shutdownPlatform = new WebcamPlatform(matterbridge, log, config);
+    addMatterbridge(shutdownPlatform);
+    const devices = [{ deviceName: 'First' }, { deviceName: 'Second' }] as unknown as MatterbridgeEndpoint[];
+    // Only the first call returns the devices: the base onShutdown clears the registered devices, so the sessions must be closed before it.
+    vi.spyOn(shutdownPlatform, 'getDevices').mockReturnValueOnce(devices);
+
+    await shutdownPlatform.onShutdown();
+
+    expect(behaviors.closeWebRtcSessions).toHaveBeenCalledTimes(2);
+    expect(behaviors.closeWebRtcSessions).toHaveBeenNthCalledWith(1, devices[0]);
+    expect(behaviors.closeWebRtcSessions).toHaveBeenNthCalledWith(2, devices[1]);
   });
 
   it('should restart and unregister devices if configured', async () => {

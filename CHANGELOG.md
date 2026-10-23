@@ -30,6 +30,35 @@ If you like this project and find it useful, please consider giving it a star on
 
 <a href="https://www.buymeacoffee.com/luligugithub"><img src="https://matterbridge.io/assets/bmc-button.svg" alt="Buy me a coffee" width="120"></a>
 
+## [1.0.1] - 2026-10-23
+
+### Breaking changes
+
+- [matterbridge]: Require matterbridge v.3.11.0 with matter v.1.6.1.
+- [node]: Drop Node.js 20 support, matching matterbridge v.3.11.0. Supported versions are Node.js 22.13, 24 and 26.
+
+### Added
+
+- [agents]: Add the Copilot `Matterbridge` custom agent (`.github/agents/matterbridge.agent.md`) that works without subagents.
+
+### Changed
+
+- [agents]: Update the shared agent setup: `AGENTS.md`, `CLAUDE.md` and `.github/copilot-instructions.md` to v.1.0.7, `GEMINI.md` to v.1.0.1 and `.agents/README.md` to v.1.0.4.
+- [agents]: Update the `testing` rules to v.1.0.7, the `matterbridge` rules to v.1.0.3 and the `verify-agent-context` skill to v.1.0.5.
+- [agents]: Update `.claude/settings.json` to v.1.0.9, `.antigravity/settings.json` to v.1.0.6 and `.codex/rules/default.rules` to v.1.0.7.
+- [vscode]: Update `.vscode/settings.json` to v.1.0.16.
+- [vscode]: Add Bundle, Minify, Obfuscate, Pack and Docker install tasks to `.vscode/tasks.json`.
+- [scripts]: Update `scripts/deep-clean.mjs` and `scripts/prepublish-clean.mjs` to v.2.1.0: also remove `tmp/` and `bun.lock`.
+- [package]: Run `checkDependencies` and `updateDependencies` with `npx npm-check-updates@latest`.
+- [package]: Bump `oxfmt` to v.0.74.0.
+- [package]: Bump `oxlint` to v.1.89.0.
+
+### Fixed
+
+- [webrtc]: Close the WebRTC sessions of the plugin devices on shutdown.
+
+<a href="https://www.buymeacoffee.com/luligugithub"><img src="https://matterbridge.io/assets/bmc-button.svg" alt="Buy me a coffee" width="80"></a>
+
 ## [1.0.0] - 2026-10-16
 
 ### Breaking changes

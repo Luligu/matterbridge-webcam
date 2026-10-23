@@ -27,7 +27,7 @@ import { createHash } from 'node:crypto';
 import { MatterbridgeDynamicPlatform } from 'matterbridge';
 import type { PlatformConfig, PlatformMatterbridge } from 'matterbridge';
 import { hasFfmpeg, installFfmpeg, listWebcams, playWebcam } from 'matterbridge/behaviors';
-import { Camera } from 'matterbridge/devices/camera';
+import { Camera, closeWebRtcSessions } from 'matterbridge/devices/camera';
 import type { AnsiLogger } from 'matterbridge/logger';
 import { getErrorMessage, isDocker } from 'matterbridge/utils';
 
@@ -75,8 +75,8 @@ export class WebcamPlatform extends MatterbridgeDynamicPlatform {
     super(matterbridge, log, config);
 
     // Verify that Matterbridge is the correct version
-    if (typeof this.verifyMatterbridgeVersion !== 'function' || !this.verifyMatterbridgeVersion('3.10.14')) {
-      throw new Error(`This plugin requires Matterbridge version >= "3.10.14". Please update Matterbridge to the latest version in the frontend.`);
+    if (typeof this.verifyMatterbridgeVersion !== 'function' || !this.verifyMatterbridgeVersion('3.11.0')) {
+      throw new Error(`This plugin requires Matterbridge version >= "3.11.0". Please update Matterbridge to the latest version in the frontend.`);
     }
 
     this.log.info(`Initializing platform ${this.config.name}...`);
@@ -262,6 +262,8 @@ export class WebcamPlatform extends MatterbridgeDynamicPlatform {
   }
 
   override async onShutdown(reason?: string): Promise<void> {
+    // Close the WebRTC sessions before super.onShutdown(), which clears the registered devices
+    for (const device of this.getDevices()) await closeWebRtcSessions(device);
     await super.onShutdown(reason);
     this.log.info(`Shutting down platform ${this.config.name} with reason: ${reason ?? 'no reason provided'}...`);
     for (const player of this.players.values()) player.kill();
